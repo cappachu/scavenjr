@@ -16,6 +16,18 @@
     {:left left :top top :right right :bottom bottom}))
 
 
+;; TODO convert to protocol?
+;; TODO unused, add functions for intersection etc.?
+;;(defn union-boxes [& have-rects]
+;;  (let [left   (apply min (map :left have-rects))
+;;        right  (apply max (map :right have-rects))
+;;        top    (apply min (map :top have-rects))
+;;        bottom (apply max (map :bottom have-rects))]
+;;    {:left left
+;;     :top top
+;;     :right right
+;;     :bottom bottom}))
+
 (defn left-aligned?
   "Determines whether two text nodes are left aligned"
   [{tn1_left :left :as tn1}

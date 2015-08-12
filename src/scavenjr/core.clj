@@ -2,7 +2,8 @@
   (:gen-class)
   (:require [clj-webdriver.taxi :as taxi]
             [scavenjr.browser :as browser]
-            [scavenjr.parse :as parse]))
+            [scavenjr.parse :as parse]
+            [scavenjr.drawing :as draw]))
 
 (defn data-from-url
   "returns a relational data set (set of maps)
@@ -19,11 +20,18 @@
   (def url "https://news.ycombinator.com/")
   (browser/start-browser)
 
-  (println (map :text (first (data-from-url url))))
-  (print "done")
+  (let [data (data-from-url url)]
+    (println (map :text (first data)))
+    (doseq [tn data]
+      ;; TODO prepare-canvas should be called once - singleton pattern?
+      (draw/prepare-canvas)
+      (draw/draw-textnode tn "red")
 
-  )
+    (print "done")
+    )
+  ))
 
+;; trim textnodes
 
 
 (-main)
