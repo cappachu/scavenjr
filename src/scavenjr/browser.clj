@@ -17,7 +17,7 @@
 
 
 (defn get-textnodes
-  ;; TODO: ignore script, meta, etc.
+  ;; TODO: ignore script, meta, etc. tags
   ;; TODO: modify script path
   ;; TODO: enumerate expected keys
   "returns visible text nodes from DOM tree"
