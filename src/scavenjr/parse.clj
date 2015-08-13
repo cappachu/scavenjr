@@ -40,8 +40,10 @@
   (and (= (textnode-style-signature tn1)
           (textnode-style-signature tn2))
        ;; TODO: support languages that read right to left?
-       (or (geom/left-aligned? tn1 tn2) 
-           false)
+       true
+       ;; ASTERISK UNCOMMENT!
+       ;;(or (geom/left-aligned? tn1 tn2) 
+       ;;    false)
        ))
 
 ;; not tail recursive
@@ -62,10 +64,11 @@
   (Integer. (re-find #"\d+" s)))
 
 
-(defn headernodes-from-textnodes
-  ;; TODO break up function
+(defn heightspanning-textnodes-clustered-by-style
   [textnodes]
-  (let [clustered-by-style (reduce (cluster style-siblings?) [] textnodes)
+  ;; ASTERISK compose (comp) predicates style-siblings? and geom/left-aligned?
+  (let [clustered-by-style (reduce (cluster style-siblings?)
+                                   [] textnodes)
         ;; TODO remove magic num
         large-clusters (filter #(> (count %) 5) clustered-by-style)
         ;;ratio of span of cluster to span of largest candidate cluster
@@ -75,9 +78,19 @@
                                                 max-height)
                                              0.80)
                                          large-clusters)
+        ]
+    ;;(flatten height-spanning-clusters)
+    height-spanning-clusters
+    ))
+
+
+(defn headernodes-from-textnodes
+  ;; TODO break up function
+  [textnodes]
+  (let [heightspanning-clusters (heightspanning-textnodes-clustered-by-style textnodes)
         ;; TODO remove magic num
         consistent-internode-distances (filter #(< (geom/internode-distance-std %) 80)
-                                               height-spanning-clusters)
+                                               heightspanning-clusters)
         ;; TODO use computed pixel font sizes to normalize em, pixels, points
         font-size-sorted  (sort-by
                            #(vector
@@ -115,8 +128,11 @@
   [textnodes]
   (let [massaged-textnodes (massage-textnodes textnodes)
         headernodes (headernodes-from-textnodes massaged-textnodes)
-        textnodes-grouped-by-headers (textnodes-for-headers headernodes massaged-textnodes)]
-    textnodes-grouped-by-headers
+
+        candidate-textnodes (flatten (heightspanning-textnodes-clustered-by-style massaged-textnodes))
+        textnodes-grouped-by-headers (textnodes-for-headers headernodes candidate-textnodes)
+        ]
     ;;headernodes
+    textnodes-grouped-by-headers
     ))
 
