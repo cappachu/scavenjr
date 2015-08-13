@@ -93,10 +93,12 @@
 
 (defn- textnodes-between-textnodes
   [tn1 tn2 textnodes]
-  (let [tn1top (:ctop tn1)
-        tn2top (:ctop tn2)]
-    (filter #(and (>= (:ctop %) tn1top)
-                  (< (:cbottom %) tn2top))
+  ;; TODO use ctop instead of top?
+  (let [tn1top (:top tn1)
+        tn2top (:top tn2)
+        padding (* 0.2 (:height tn2))]
+    (filter #(and (>= (:top %) tn1top)
+                  (< (:bottom %) tn2top))
             textnodes)))
 
 (defn- textnodes-for-headers
@@ -111,8 +113,10 @@
 
 (defn data-from-textnodes
   [textnodes]
-  (let [headernodes (headernodes-from-textnodes textnodes)
-        textnodes-grouped-by-headers (textnodes-for-headers headernodes textnodes)]
+  (let [massaged-textnodes (massage-textnodes textnodes)
+        headernodes (headernodes-from-textnodes massaged-textnodes)
+        textnodes-grouped-by-headers (textnodes-for-headers headernodes massaged-textnodes)]
     textnodes-grouped-by-headers
+    ;;headernodes
     ))
 

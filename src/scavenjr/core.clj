@@ -3,7 +3,8 @@
   (:require [clj-webdriver.taxi :as taxi]
             [scavenjr.browser :as browser]
             [scavenjr.parse :as parse]
-            [scavenjr.drawing :as draw]))
+            [scavenjr.drawing :as draw]
+            [scavenjr.geometry :as geom]))
 
 (defn data-from-url
   "returns a relational data set (set of maps)
@@ -22,14 +23,17 @@
 
   (let [data (data-from-url url)]
     (println (map :text (first data)))
-    (doseq [tn data]
-      ;; TODO prepare-canvas should be called once - singleton pattern?
-      (draw/prepare-canvas)
-      (draw/draw-textnode tn "red")
+    ;; TODO prepare-canvas should be called once - singleton pattern?
+    (draw/prepare-canvas)
+    (doseq [header data]
+      ;;(println  (map :text header))
+      (draw/draw-textnode (geom/span header) "blue"))
+      ;;(draw/draw-textnode header "red"))
+
 
     (print "done")
     )
-  ))
+  )
 
 ;; trim textnodes
 
