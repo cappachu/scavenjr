@@ -10,7 +10,7 @@ var width = right - left + 1;
 var height = bottom - top + 1;
 
 
-var canvas = document.getElementById("scvnjr_canvas");
+var canvas = document.getElementById("scavenjr_canvas");
 var context = canvas.getContext('2d');
 //Draw rectangle
 // context retains previous state of path, so we must reset path

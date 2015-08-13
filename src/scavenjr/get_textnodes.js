@@ -15,7 +15,7 @@ var walker = document.createTreeWalker(
 // add position element around text nodes
 walker.currentNode = document.body;
 while(node = walker.nextNode()) {
-    var position = document.createElement('scvnjr_position');
+    var position = document.createElement('scavenjr_position');
     // TODO unused var a
     var a = node.parentNode.replaceChild(position, node); // a unused
     position.appendChild(node);

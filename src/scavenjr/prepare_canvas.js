@@ -18,6 +18,6 @@ canvas.style.left=0;
 canvas.style.top=0;
 canvas.style.zIndex=100000;
 canvas.style.pointerEvents='none'; //Make sure you can click 'through' the canvas
-canvas.id = "scvnjr_canvas";
+canvas.id = "scavenjr_canvas";
 document.body.appendChild(canvas); //Append canvas to body element
 
