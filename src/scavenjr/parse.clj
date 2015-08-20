@@ -3,14 +3,14 @@
 
 
 
-(defn- blank? [str]
+(defn blank? [str]
   (every? #(Character/isWhitespace %) str))
 
-(defn- visible-textnode? [tn]
+(defn visible-textnode? [tn]
   (let [dimensions (vals (select-keys tn [:cheight :cwidth]))]
     (some #(> % 0) dimensions)))
 
-(defn- massage-textnodes [textnodes]
+(defn massage-textnodes [textnodes]
   (let [nonblank (filter #((complement blank?) (:text %)) textnodes)
         ;; TODO use update-in?
         trimmed (map #(assoc % :text (clojure.string/trim (:text %)))
@@ -20,7 +20,7 @@
                         visible)]
     sorted))
 
-(defn- textnode-style-signature
+(defn textnode-style-signature
   "returns values corresponding to styles of a textnode"
   [tn]
   (select-keys tn
@@ -33,7 +33,7 @@
                 :textAlign]))
 
 
-(defn- style-siblings?
+(defn style-siblings?
   "returns true if two textnodes have the same styles
   and are left-aligned"
   [tn1 tn2]
@@ -47,7 +47,7 @@
        ))
 
 ;; not tail recursive
-(defn- cluster [pred]
+(defn cluster [pred]
   ;; TODO update doc string
   "returns a function appropriate for use with reduce"
   (fn reducer-fn [colls elem]
@@ -60,7 +60,7 @@
           (cons coll (reducer-fn (rest colls) elem)))))))
 
 
-(defn- parse-int [s]
+(defn parse-int [s]
   (Integer. (re-find #"\d+" s)))
 
 
@@ -104,7 +104,7 @@
   ))
 
 
-(defn- textnodes-between-textnodes
+(defn textnodes-between-textnodes
   [tn1 tn2 textnodes]
   ;; TODO use ctop instead of top?
   (let [tn1top (:top tn1)
@@ -114,7 +114,7 @@
                   (< (:bottom %) tn2top))
             textnodes)))
 
-(defn- textnodes-for-headers
+(defn textnodes-for-headers
   "groups textnodes between headers"
   ;; TODO return map in which headers are keys
   [headernodes textnodes]

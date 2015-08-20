@@ -18,14 +18,6 @@
 
 (def urls {
            :hacker-news "https://news.ycombinator.com/"
-           :menu-pages "http://www.menupages.com/restaurants/10th-avenue-pizza/menu"
-           :amazon "http://www.amazon.com/s/ref=nb_sb_noss_2?url=search-alias%3Daps&field-keywords=lisp"
-           :zappos "http://www.zappos.com/men-shoes~1y"
-           :craigslist  "https://newyork.craigslist.org/search/aap"
-           :peru-movies  "http://carteleraperu.com"
-           :presidents "http://presidential-candidates.insidegov.com"
-           :nycdata "https://data.cityofnewyork.us/City-Government/NYC-Jobs/kpav-sd4t"
-           :secforms "http://www.sec.gov/forms"
 })
 
 (defn -main
@@ -37,19 +29,17 @@
 
   (let [url (urls :hacker-news)
         data (data-from-url url)]
+
     (println (map :text (first data)))
     ;; TODO prepare-canvas should be called once - singleton pattern?
     (draw/prepare-canvas)
     (doseq [header data]
       ;;(println  (map :text header))
-      ;; TODO: fix bug with span (extends to left edge)
       ;;(draw/draw-textnode (geom/span header) "blue"))
       ;;(draw/draw-textnode header "red"))
       (doseq [tn header]
-        (draw/draw-textnode tn "blue")))
-
-
-    (print "done")
+        (draw/draw-textnode tn "blue"))
+      )
     )
   )
 
